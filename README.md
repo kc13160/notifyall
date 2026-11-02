@@ -374,14 +374,14 @@ ch.send("Free push notification!", title="Ntfy Test")
 ### Microsoft Teams
 
 
-The Microsoft Teams channel sends messages to any Teams channel via an Incoming Webhook connector. Plain text messages work out of the box with `.send()`. For enterprise use cases where more structured information is needed, `.send_card()` generates a rich adaptive card with a title, a description message, and a table of key-value facts — useful for deployment reports, incident summaries, or any structured status update that needs to be clearly readable in a busy Teams channel.
+The Microsoft Teams channel sends messages to a Teams channel via a webhook. Plain text messages work out of the box with `.send()`. For enterprise use cases where more structured information is needed, `.send_card()` generates a rich adaptive card with a title, a description message, and a table of key-value facts — useful for deployment reports, incident summaries, or any structured status update that needs to be clearly readable in a busy Teams channel.
 
 
 ```python
 from notifyall.channels import TeamsChannel
 
 
-ch = TeamsChannel(webhook_url="https://outlook.office.com/webhook/...")
+ch = TeamsChannel(webhook_url="https://your-teams-webhook-url")
 
 
 ch.send("Simple message", title="Alert")
@@ -400,7 +400,7 @@ ch.send_card(
 ```
 
 
-> 💡 Create an Incoming Webhook in your Teams channel connectors.
+> 💡 Create a webhook with the Workflows app in Teams. Messages are sent as Adaptive Cards, which do not support custom colours, so `color` currently has no effect.
 
 
 ---
@@ -497,6 +497,40 @@ ch.send("Server is down!", title="🚨 CRITICAL")
 
 
 > 💡 Create an application on [pushover.net](https://pushover.net) to get your app token.
+
+
+---
+
+
+### Configuration from environment variables
+
+
+`Notifier.from_env()` reads a `.env` file and the environment, and adds every channel that is fully configured.
+
+
+```python
+from notifyall import Notifier
+
+n = Notifier.from_env(default_title="My app")
+n.notify("Hello!")
+```
+
+
+| Channel | Variables |
+|---|---|
+| Telegram | `NOTIFYALL_TELEGRAM_BOT_TOKEN`, `NOTIFYALL_TELEGRAM_CHAT_ID` |
+| Slack | `NOTIFYALL_SLACK_WEBHOOK_URL` |
+| Discord | `NOTIFYALL_DISCORD_WEBHOOK_URL` |
+| Ntfy | `NOTIFYALL_NTFY_TOPIC`, optional `NOTIFYALL_NTFY_SERVER`, `NOTIFYALL_NTFY_PRIORITY` |
+| Email | `NOTIFYALL_EMAIL_SMTP_HOST`, `NOTIFYALL_EMAIL_SMTP_PORT`, `NOTIFYALL_EMAIL_USERNAME`, `NOTIFYALL_EMAIL_PASSWORD`, `NOTIFYALL_EMAIL_FROM`, `NOTIFYALL_EMAIL_TO`, optional `NOTIFYALL_EMAIL_USE_TLS` |
+| Teams | `NOTIFYALL_TEAMS_WEBHOOK_URL` |
+| Mattermost | `NOTIFYALL_MATTERMOST_WEBHOOK_URL`, optional `NOTIFYALL_MATTERMOST_CHANNEL` |
+| Rocket.Chat | `NOTIFYALL_ROCKETCHAT_WEBHOOK_URL` |
+| WhatsApp | `NOTIFYALL_WHATSAPP_ACCOUNT_SID`, `NOTIFYALL_WHATSAPP_AUTH_TOKEN`, `NOTIFYALL_WHATSAPP_FROM`, `NOTIFYALL_WHATSAPP_TO` |
+| Pushover | `NOTIFYALL_PUSHOVER_APP_TOKEN`, `NOTIFYALL_PUSHOVER_USER_KEY` |
+
+
+Each channel also accepts `NOTIFYALL_<CHANNEL>_MIN_LEVEL`. The default is `info`, except email, which defaults to `critical`.
 
 
 ---
@@ -628,7 +662,7 @@ def check_price(symbol, price, target):
 ## 🧪 Tests
 
 
-The test suite covers all channels, all sending methods, and all edge cases. Run it with pytest before contributing or after modifying the source code to make sure everything still works as expected.
+The test suite covers the notifier and the requests built by each channel, using mocked network calls. Run it with pytest before contributing or after modifying the source code to make sure everything still works as expected.
 
 
 ```bash

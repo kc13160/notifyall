@@ -10,9 +10,14 @@ from .channels import (
     TelegramChannel,
     DiscordChannel,
     EmailChannel,
+    TeamsChannel,
+    MattermostChannel,
+    RocketChatChannel,
+    WhatsAppChannel,
+    PushoverChannel,
 )
 
-__version__ = "0.5.1"
+__version__ = "0.6.0"
 __author__ = "KeyZen07"
 
 __all__ = [
@@ -22,4 +27,9 @@ __all__ = [
     "TelegramChannel",
     "DiscordChannel",
     "EmailChannel",
+    "TeamsChannel",
+    "MattermostChannel",
+    "RocketChatChannel",
+    "WhatsAppChannel",
+    "PushoverChannel",
 ]

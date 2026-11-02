@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "notifyall"
-version = "0.5.1"
+version = "0.6.0"
 description = "Notifications multi-canaux : Email, Slack, Telegram, Discord, WhatsApp, Teams, Ntfy, Mattermost, Rocket.Chat, Pushover en une ligne"
 readme = "README.md"
 license = "MIT"
@@ -25,6 +25,7 @@ dev = ["pytest>=7.0", "pytest-cov"]
 [project.urls]
 Homepage = "https://github.com/kc13160/notifyall"
 Issues = "https://github.com/kc13160/notifyall/issues"
+Changelog = "https://github.com/kc13160/notifyall/blob/main/CHANGELOG.md"
 "Buy Me a Coffee" = "https://buymeacoffee.com/keyzen07"
 
 [tool.setuptools.packages.find]

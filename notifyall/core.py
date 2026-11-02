@@ -268,6 +268,11 @@ class Notifier:
             DiscordChannel,
             EmailChannel,
             NtfyChannel,
+            TeamsChannel,
+            MattermostChannel,
+            RocketChatChannel,
+            WhatsAppChannel,
+            PushoverChannel,
         )
 
         telegram_token = os.getenv("NOTIFYALL_TELEGRAM_BOT_TOKEN")
@@ -325,6 +330,53 @@ class Notifier:
                     use_tls=os.getenv("NOTIFYALL_EMAIL_USE_TLS", "true").lower() == "true",
                 ),
                 min_level=os.getenv("NOTIFYALL_EMAIL_MIN_LEVEL", "critical"),
+            )
+
+        teams_webhook = os.getenv("NOTIFYALL_TEAMS_WEBHOOK_URL")
+        if teams_webhook:
+            notifier.add(
+                TeamsChannel(webhook_url=teams_webhook),
+                min_level=os.getenv("NOTIFYALL_TEAMS_MIN_LEVEL", "info"),
+            )
+
+        mattermost_webhook = os.getenv("NOTIFYALL_MATTERMOST_WEBHOOK_URL")
+        if mattermost_webhook:
+            notifier.add(
+                MattermostChannel(
+                    webhook_url=mattermost_webhook,
+                    channel=os.getenv("NOTIFYALL_MATTERMOST_CHANNEL", ""),
+                ),
+                min_level=os.getenv("NOTIFYALL_MATTERMOST_MIN_LEVEL", "info"),
+            )
+
+        rocketchat_webhook = os.getenv("NOTIFYALL_ROCKETCHAT_WEBHOOK_URL")
+        if rocketchat_webhook:
+            notifier.add(
+                RocketChatChannel(webhook_url=rocketchat_webhook),
+                min_level=os.getenv("NOTIFYALL_ROCKETCHAT_MIN_LEVEL", "info"),
+            )
+
+        twilio_sid = os.getenv("NOTIFYALL_WHATSAPP_ACCOUNT_SID")
+        twilio_token = os.getenv("NOTIFYALL_WHATSAPP_AUTH_TOKEN")
+        whatsapp_from = os.getenv("NOTIFYALL_WHATSAPP_FROM")
+        whatsapp_to = os.getenv("NOTIFYALL_WHATSAPP_TO")
+        if all([twilio_sid, twilio_token, whatsapp_from, whatsapp_to]):
+            notifier.add(
+                WhatsAppChannel(
+                    account_sid=twilio_sid,
+                    auth_token=twilio_token,
+                    from_number=whatsapp_from,
+                    to_number=whatsapp_to,
+                ),
+                min_level=os.getenv("NOTIFYALL_WHATSAPP_MIN_LEVEL", "info"),
+            )
+
+        pushover_token = os.getenv("NOTIFYALL_PUSHOVER_APP_TOKEN")
+        pushover_user = os.getenv("NOTIFYALL_PUSHOVER_USER_KEY")
+        if pushover_token and pushover_user:
+            notifier.add(
+                PushoverChannel(app_token=pushover_token, user_key=pushover_user),
+                min_level=os.getenv("NOTIFYALL_PUSHOVER_MIN_LEVEL", "info"),
             )
 
         return notifier
