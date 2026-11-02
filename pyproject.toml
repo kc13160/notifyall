@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "notifyall"
+version = "0.5.1"
+description = "Notifications multi-canaux : Email, Slack, Telegram, Discord, WhatsApp, Teams, Ntfy, Mattermost, Rocket.Chat, Pushover en une ligne"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+keywords = ["notification", "slack", "telegram", "discord", "whatsapp", "teams", "ntfy", "mattermost", "rocketchat", "pushover", "email", "alert", "monitoring"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Topic :: Communications",
+    "Topic :: System :: Monitoring",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-cov"]
+
+[project.urls]
+Homepage = "https://github.com/kc13160/notifyall"
+Issues = "https://github.com/kc13160/notifyall/issues"
+"Buy Me a Coffee" = "https://buymeacoffee.com/keyzen07"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["notifyall*"]
