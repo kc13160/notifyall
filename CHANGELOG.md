@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.6.0 (not yet published to PyPI)
+## 0.6.0 (November 2026)
 
 ### Added
 - Channels documented in the README but missing from the package: Microsoft Teams, Mattermost, Rocket.Chat, WhatsApp (Twilio) and Pushover.
